@@ -1,0 +1,6 @@
+I would test the word count program by specifying diffrent kinds of characters and
+throwing in different combinations of new lines, tabs, and spaces. For example I'd start
+with \t or \n or ' ' to see if it handles that case at the beginning. Then I might test
+tabs intermingled with spaces and newlines to see if it handles multiple cases. I'd test
+different word orders, words sepeareted by the delimiters, and then test if it can
+finish gracefully.
