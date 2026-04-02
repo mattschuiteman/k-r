@@ -1,0 +1,42 @@
+#include <stdio.h>
+
+#define IN 1
+#define OUT 0
+
+int main()
+{
+    int c, i, j, state, ncount;
+
+    int lcount[15];
+
+    for (i = 0; i < 15; ++i)
+    lcount[i] = 0;
+    
+    state = OUT;
+    ncount = 0;
+
+    while ((c = getchar()) != EOF) {
+	if (c == ' ' || c == '\n' || c == '\t') {
+	    state = OUT;
+	    lcount[ncount] = lcount[ncount] + 1;
+	    ncount = 0;
+	    continue;
+	}
+	else if (state == OUT) {
+	    state = IN;
+	}
+	ncount++;
+    }
+
+    lcount[ncount] = lcount[ncount] + 1;
+
+    printf(" ----- Word Count Histogram -----\n");
+    for (i = 0; i < 15; ++i) {
+	ncount = lcount[i];
+	printf("%d:", i);
+	for (j = 0; j < ncount; ++j)
+	printf("*");
+	printf("\n");
+    }
+    printf("-----------------------------------");
+}
