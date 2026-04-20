@@ -1,0 +1,93 @@
+s#include <stdio.h>
+
+// Symbolic contants
+#define MAXLINE 1000 /* maximum input line length */
+#define TABSTOP 4
+#define FOLD_FLOOR 38
+#define FOLD_CEILING 42
+
+// Extern declarations
+int fold_mode;
+
+
+// Function declartions
+int getlineKR(char line[], int maxline);
+void copy(char to[], char from[]);
+void fold(char line[], int len);
+
+
+/* print the longest input line */
+int main()
+{
+    int len; /* current line length */
+    int max; /* maximum length seen so far */
+    char line[MAXLINE]; /* current input line */
+    char characters[MAXLINE]; /* longest line saved here */
+    max = 0;
+    while ((len = getlineKR(line, MAXLINE)) > 0) {
+	fold(line, len);
+    }
+    
+    return 0;
+}
+
+void fold(char line[], int len)
+{
+    int fold_count, i;
+
+    fold_mode = 0;
+    fold_count = 0;
+
+    for (i = 0; i < len; ++i)
+    {
+	if (fold_count >= FOLD_FLOOR && fold_count <= FOLD_CEILING)
+	fold_mode = 1;
+
+	if (fold_mode == 1)
+	printf("FOLD MODE ACTIVATED\n");
+
+	if (fold_mode == 1 && (line[i] == '\t' || line[i] == ' '))
+	{
+	    printf("FOLDED\n");
+	    // printf("\n");
+	    fold_mode = 0;
+	    fold_count = 0;
+	    continue;
+	}
+
+	if (fold_mode == 1 && fold_count > FOLD_CEILING)
+	{
+	    printf("FOLDED\n");
+	    // printf("\n");
+	    fold_count = 0;
+	    fold_mode = 0;
+	}
+
+	fold_count++;
+	printf("%c\n", line[i]);
+	printf("FOLD COUNT: %d\n", fold_count);
+    }
+}
+
+
+/* getlinye: read a line into s, return length */
+int getlineKR(char s[],int lim)
+{
+    int c, i;
+    for (i=0; i < lim-1 && (c=getchar())!=EOF && c!='\n'; ++i)
+    s[i] = c;
+    if (c == '\n') {
+	s[i] = c;
+	++i;
+    }
+    s[i] = '\0';
+    return i;
+}
+/* copy: copy 'from' into 'to'; assume to is big enough */
+void copy(char to[], char from[])
+{
+    int i;
+    i = 0;
+    while ((to[i] = from[i]) != '\0')
+    ++i;
+}

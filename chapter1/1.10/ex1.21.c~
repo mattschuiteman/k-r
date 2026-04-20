@@ -1,0 +1,95 @@
+#include <stdio.h>
+
+// Symbolic contants
+#define MAXLINE 1000 /* maximum input line length */
+#define TABSTOP 4
+
+// Extern declarations
+int i, j, spaces,  col;
+
+
+// Function declartions
+int getlineKR(char line[], int maxline);
+void copy(char to[], char from[]);
+void entab(char line[]);
+
+
+/* print the longest input line */
+int main()
+{
+    int len; /* current line length */
+    int max; /* maximum length seen so far */
+    char line[MAXLINE]; /* current input line */
+    char characters[MAXLINE]; /* longest line saved here */
+    max = 0;
+    while ((len = getlineKR(line, MAXLINE)) > 0) {
+	entab(line);
+    }
+    
+    return 0;
+}
+
+void entab(char line[])
+{
+    int i, col, space_count, spaces_to_tabstop, start_col;
+
+    while(line[i] != '\0')
+    {
+	if (line[i] == ' ')
+	{
+	    col++;
+	    space_count++;
+	}
+	else
+	{
+	    while(space_count > 0)
+	    {
+		start_col = col - space_count;
+		spaces_to_tabstop = TABSTOP - (start_col % TABSTOP);
+
+		if (space_count >= spaces_to_tabstop)
+		{
+		    printf("\t");
+		    space_count -= spaces_to_tabstop;
+		    start_col += spaces_to_tabstop;
+		}
+		else
+		{
+		    while (space_count > 0)
+		    {
+			printf(" ");
+			space_count--;
+		    }
+		}
+
+	    }
+
+	    printf("%c", line[i]);
+	    col++;
+	    
+	}
+    }
+    
+}
+
+/* getline: read a line into s, return length */
+int getlineKR(char s[],int lim)
+{
+    int c, i;
+    for (i=0; i < lim-1 && (c=getchar())!=EOF && c!='\n'; ++i)
+    s[i] = c;
+    if (c == '\n') {
+	s[i] = c;
+	++i;
+    }
+    s[i] = '\0';
+    return i;
+}
+/* copy: copy 'from' into 'to'; assume to is big enough */
+void copy(char to[], char from[])
+{
+    int i;
+    i = 0;
+    while ((to[i] = from[i]) != '\0')
+    ++i;
+}

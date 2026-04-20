@@ -1,0 +1,104 @@
+#include <stdio.h>
+// Symbolic contants
+#define MAXLINE 1000 /* maximum input line length */
+#define TABSTOP 4
+
+// Extern declarations
+int quote_mode = 0;
+int delete_line_mode = 0;
+
+// Function declartions
+int getlineKR(char line[], int maxline);
+void copy(char to[], char from[]);
+void remove_comments(char line[], int len);
+
+
+/* print the longest input line */
+int main()
+{
+    int len; /* current line length */
+    int max; /* maximum length seen so far */
+    char line[MAXLINE]; /* current input line */
+    char characters[MAXLINE]; /* longest line saved here */
+    max = 0;
+    while ((len = getlineKR(line, MAXLINE)) > 0) {
+	remove_comments(line, len);
+    }
+    
+    return 0;
+}
+
+void remove_comments(char line[], int len)
+{
+    for (int i = 0; i < len; ++i)
+    {
+	// Turn on quote mode
+	if (quote_mode == 0 && (line[i] == '\'' || line[i] == '\"'))
+	quote_mode = 1;
+	
+	else if (quote_mode == 1 && (line[i] == '\'' || line[i] == '\"'))
+	quote_mode = 0;
+
+	// Turn on delete line mode
+	if (quote_mode == 0 && (line[i] == '/' && line[i + 1] == '*'))
+	{
+	    delete_line_mode = 1;
+
+	    if (line[i + 2] == '\0')
+	    line[i] = '\0';
+
+	    else
+	    i = i + 2;
+	}
+
+	if (delete_line_mode == 1 && (line [i] == '*' && line[i + 1] == '/'))
+	{
+	    delete_line_mode = 0;
+	    i++;
+	    if (line[i + 1] == '\0')
+	    break;
+
+	    i++;
+	    continue;
+	}
+		
+	if (quote_mode == 1)
+	{
+	    putchar(line[i]);
+	    continue;
+	}
+
+	if (delete_line_mode == 1)
+	continue;
+
+	if (quote_mode == 0  && (line[i] == '/' && line[i + 1] == '/'))
+	{
+	    putchar('\0');
+	    break;
+	}
+
+	putchar(line[i]);
+    }
+}
+
+/* getline: read a line into s, return length */
+int getlineKR(char s[],int lim)
+{
+    int c, i;
+    for (i=0; i < lim-1 && (c=getchar())!=EOF && c!='\n'; ++i)
+    s[i] = c;
+    if (c == '\n') {
+	s[i] = c;
+	++i;
+    }
+    s[i] = '\0';
+    return i;
+}
+/* copy: copy 'from' into 'to'; assume to is big enough */
+void copy(char to[], char from[])
+{
+    int i;
+    i = 0;
+    while ((to[i] = from[i]) != '\0')
+    ++i;
+}
