@@ -34,10 +34,10 @@ int getlineKR2(char s[], int lim)
     int i = 0;
     while ((c = getchar()) != EOF)
     {
-	if (i < lim - 1)
+	if (i >= lim - 1)
 	break;
 
-	if (s[i] == '\n')
+	if (c  == '\n')
 	{
 	    s[i] = c;
 	    ++i;
