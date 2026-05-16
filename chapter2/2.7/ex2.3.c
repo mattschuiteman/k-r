@@ -36,12 +36,6 @@ int getlineKR(char s[],int lim)
 
 int htoiKR(char s[], int len)
 {
-    if (len < 3)
-    {
-	printf("Hex numbers cannot have less than 3 characters!\n");
-	return -1;
-    }
-
     int i = 0;
     if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X'))
     i = i + 2;
@@ -69,7 +63,7 @@ int htoiKR(char s[], int len)
 	    digit = c - 'a' + 10;
 	}
 
-	else if (c == '\n' || c == '\0')
+	else if (c == '\n')
 	break;
 
 	else
