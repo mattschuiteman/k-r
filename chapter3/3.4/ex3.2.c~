@@ -1,0 +1,66 @@
+#include <stdio.h>
+
+#define MAXLINE 1000 /* maximum input line length */
+int getlineKR(char line[], int maxline);
+void escapeMS(char s[], char t[]);
+
+int main()
+{
+    int len; /* current line length */
+    char line[MAXLINE]; /* current input line */
+    while ((len = getlineKR(line, MAXLINE)) > 0)
+    {
+	char escaped_line[];
+	escape(line, escaped_line);
+	printf("%d\n", escaped_line);
+    }
+
+    return 0;
+}
+
+/* getline: read a line into s, return length */
+int getlineKR(char s[],int lim)
+{
+    int c, i;
+    for (i=0; i < lim-1 && (c=getchar())!=EOF && c!='\n'; ++i)
+    s[i] = c;
+    if (c == '\n') {
+	s[i] = c;
+	++i;
+    }
+    s[i] = '\0';
+    return i;
+}
+
+void escapeMS(char s[], char t[])
+{
+    int i = 0;
+    int j = 0;
+    while (s[i] != '\0')
+    {
+	switch (s[i]) {
+	case '\n':
+	    t[j+++] = '\\';
+	    t[j++] = 'n';
+	case '\b':
+	    t[j++] = '\\';
+	    t[j++] = 'b';
+	case '\t':
+	    t[j++] = '\\';
+	    t[j++] = '\t';
+	case '\'':
+	    t[j++] = '\\';
+	    t[j++] = '\'';
+	case '\"':
+	    t[j++] = '\\';
+	    t[j++] = '\"';
+	default:
+	    t[j++] = s[i];
+	}
+	
+	i++;
+    }
+}
+
+	    
+	    
