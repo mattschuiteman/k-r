@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #define MAXOP 100 // max size of operand or operator
 #define NUMBER '0' // signal that a number was found
@@ -40,7 +41,7 @@ int main()
 	case '%':
 	    op2 = pop();
 	    if (op2 != 0.0)
-	    push((pop() % op2));
+	    push(fmod(pop(), op2));
 	    else
 	    printf("Error: zero divisor\n");
 	    break;

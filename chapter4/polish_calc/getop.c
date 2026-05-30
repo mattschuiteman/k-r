@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 
 #define NUMBER '0'
 
@@ -14,9 +14,15 @@ int getop(char s[])
     ;
 
     s[1] = '\0';
-    if (!isdigit(c) && c!= '.')
-    return c; // not a number
+
+
+    if (!isdigit(c) && c!= '.' && c != '-')
+    {
+	return c; // not a number
+    }
+
     i = 0;
+
     if (isdigit(c))
     {
 	while (isdigit(s[++i] = c = getch()))
@@ -28,7 +34,27 @@ int getop(char s[])
 	while (isdigit(s[++i] = c = getch()))
 	;
     }
-    
+
+    if (c == '-')
+    {
+	// we look ahead to determine if the negative sign follows a digit
+	// if it does, we add it to the buffer to be processed
+	// if it doesn't, return it, it's an operator
+	int next = getch();
+	if (!isdigit(next) && next != '.')
+	{
+	    ungetch(next);
+	    return c;
+	}
+
+	else
+	{
+	    ungetch(next);
+	    while(isdigit(s[++i] = c = getch()))
+	    ;
+	}
+    }
+
     s[i] = '\0';
 
     if (c != EOF)

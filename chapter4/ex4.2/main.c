@@ -127,7 +127,6 @@ double atoiMSPlus(char s[])
 	}
 	
     }
-
     return val;
 }
 
