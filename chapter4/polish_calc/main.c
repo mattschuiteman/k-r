@@ -5,9 +5,15 @@
 #define MAXOP 100 // max size of operand or operator
 #define NUMBER '0' // signal that a number was found
 
+// stack_ops.c commands
 int getop(char []);
 void push(double);
 double pop(void);
+
+void print_stack(void);
+void duplicate_stack(void);
+void swap_top_two(void);
+void clear_stack(void);
 
 // reverse Polish notation
 int main()
@@ -46,7 +52,18 @@ int main()
 	    printf("Error: zero divisor\n");
 	    break;
 	case '\n':
-	    printf("\t%.8g\n", pop());
+	    break;
+	case 'p':
+	    print_stack();
+	    break;
+	case 'd':
+	    duplicate_stack();
+	    break;
+	case 's':
+	    swap_top_two();
+	    break;
+	case 'c':
+	    clear_stack();
 	    break;
 	default:
 	    printf("Error: unknown command %s\n", s);
