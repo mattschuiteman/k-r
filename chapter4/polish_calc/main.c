@@ -59,12 +59,23 @@ int main()
 	case 'd':
 	    duplicate_stack();
 	    break;
-	case 's':
+	case 'w':
 	    swap_top_two();
 	    break;
 	case 'c':
 	    clear_stack();
 	    break;
+	case 'e':
+	    push(exp(pop()));
+	    break;
+	case 's':
+	    push(sin(pop()));
+	    break;
+	case 'o':
+	    op2 = pop();
+	    push(pow(pop(), op2));
+	    break;
+
 	default:
 	    printf("Error: unknown command %s\n", s);
 	    break;
