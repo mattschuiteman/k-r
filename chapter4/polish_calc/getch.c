@@ -2,20 +2,33 @@
 
 #define BUFSIZE 100
 
-char buf[BUFSIZE];
-int bufp = 0;
+// Assume there will only ever be one character of pushback
+char placeholder = EOF;
 
 int getch(void)
 {
-    return (bufp > 0) ? buf[--bufp] : getchar();
+    if (placeholder != EOF)
+    {
+	char ret = placeholder;
+	placeholder = EOF;
+	return ret;
+    }
+    else
+    {
+	return getchar();
+    }
 }
 
 void ungetch(int c)
 {
-    if (bufp >= BUFSIZE)
-    printf("ungetch: too many characters\n");
+    if (placeholder != EOF)
+    {
+	printf("Cannot ungetch(), placeholder in use\n");
+    }
     else
-    buf[bufp++] = c;
+    {
+	placeholder = c;
+    }
 }
 
 void ungets(char s[])
