@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #define NUMBER '0'
+#define VARIABLE 'a'
 
 int getch(void);
 void ungetch(int);
@@ -22,6 +23,12 @@ int getop(char s[])
     }
 
     i = 0;
+
+    if (islower(c))
+    {
+	return VARIABLE;
+    }
+
 
     if (isdigit(c))
     {

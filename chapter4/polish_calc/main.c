@@ -4,6 +4,10 @@
 
 #define MAXOP 100 // max size of operand or operator
 #define NUMBER '0' // signal that a number was found
+#define VARIABLE 'a' // signal that variable was found
+
+double vars[26];
+int lastvar;
 
 // stack_ops.c commands
 int getop(char []);
@@ -53,36 +57,40 @@ int main()
 	    break;
 	case '\n':
 	    break;
-	case 'p':
+	case 'P':
 	    print_stack();
 	    break;
-	case 'd':
+	case 'D':
 	    duplicate_stack();
 	    break;
-	case 'w':
+	case 'W':
 	    swap_top_two();
 	    break;
-	case 'c':
+	case 'C':
 	    clear_stack();
 	    break;
-	case 'e':
+	case 'E':
 	    push(exp(pop()));
 	    break;
-	case 's':
+	case 'S':
 	    push(sin(pop()));
 	    break;
-	case 'o':
+	case 'O':
 	    op2 = pop();
 	    push(pow(pop(), op2));
 	    break;
-
-	default:
+	case VARIABLE:
+	    lastvar = s[0] - VARIABLE;
+	    push(vars[lastvar]);
+	    break;
+	case '=':
+	    pop();
+	    vars[lastvar] = pop();
+	    break;
+        default:
 	    printf("Error: unknown command %s\n", s);
 	    break;
 	}
     }
     return 0;
 }
-
-	    
-	
