@@ -1,11 +1,6 @@
 #include <ctype.h>
 #include <stdio.h>
-
-#define NUMBER '0'
-#define VARIABLE 'a'
-#define MAXLINE 1000
-
-int getlineMS(char s[], int);
+#include "calc.h"
 
 int getop(char s[])
 {
