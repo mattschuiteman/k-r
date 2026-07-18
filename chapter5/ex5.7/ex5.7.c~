@@ -1,0 +1,221 @@
+/*
+ * K&R Exercise 5-7 Driver
+ *
+ * Build:
+ *      gcc -O2 exercise5_7.c -o exercise5_7
+ *
+ * Run:
+ *      ./exercise5_7 < input.txt
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+#define MAXLINES 5000
+#define MAXLEN   1000
+#define ALLOCSIZE 1000000
+
+char *lineptr[MAXLINES];
+
+/* -------- ORIGINAL FUNCTIONS -------- */
+
+int readlines(char *lineptr[], int maxlines);
+void writelines(char *lineptr[], int nlines);
+void kr_qsort(char *v[], int left, int right);
+void swap(char *v[], int i, int j);
+
+/* -------- YOUR VERSION -------- */
+
+/*
+ * Rewrite this function for Exercise 5-7.
+ *
+ * storage      -> character array supplied by main
+ * storage_size -> size of that array
+ */
+int readlines_ex57(char *lineptr[],
+                   int maxlines,
+                   char storage[],
+                   int storage_size);
+
+/* -------- SUPPORT -------- */
+
+int kr_getline(char line[], int maxlen);
+
+char *alloc(int n);
+
+/* Original allocator */
+static char allocbuf[ALLOCSIZE];
+static char *allocp = allocbuf;
+
+char *alloc(int n)
+{
+    if (allocbuf + ALLOCSIZE - allocp >= n) {
+        allocp += n;
+        return allocp - n;
+    }
+    return NULL;
+}
+
+void afree(void)
+{
+    allocp = allocbuf;
+}
+
+int kr_getline(char s[], int lim)
+{
+    int c, i;
+
+    for (i = 0; i < lim - 1 &&
+                (c = getchar()) != EOF &&
+                c != '\n';
+         ++i)
+        s[i] = c;
+
+    if (c == '\n')
+        s[i++] = c;
+
+    s[i] = '\0';
+
+    return i;
+}
+
+/* ---------- ORIGINAL readlines ---------- */
+
+int readlines(char *lineptr[], int maxlines)
+{
+    int len, nlines;
+    char *p;
+    char line[MAXLEN];
+
+    nlines = 0;
+
+    while ((len = kr_getline(line, MAXLEN)) > 0) {
+
+        if (nlines >= maxlines ||
+            (p = alloc(len)) == NULL)
+            return -1;
+
+        line[len - 1] = '\0';
+        strcpy(p, line);
+        lineptr[nlines++] = p;
+    }
+
+    return nlines;
+}
+
+void writelines(char *lineptr[], int nlines)
+{
+    while (nlines-- > 0)
+        printf("%s\n", *lineptr++);
+}
+
+void swap(char *v[], int i, int j)
+{
+    char *temp = v[i];
+    v[i] = v[j];
+    v[j] = temp;
+}
+
+void kr_qsort(char *v[], int left, int right)
+{
+    int i, last;
+
+    if (left >= right)
+        return;
+
+    swap(v, left, (left + right) / 2);
+
+    last = left;
+
+    for (i = left + 1; i <= right; i++)
+        if (strcmp(v[i], v[left]) < 0)
+            swap(v, ++last, i);
+
+    swap(v, left, last);
+
+    kr_qsort(v, left, last - 1);
+    kr_qsort(v, last + 1, right);
+}
+
+/* ===================================================== */
+
+int main(void)
+{
+    int nlines;
+    clock_t start, end;
+    double elapsed;
+
+    /* Storage for your Exercise 5-7 version */
+    static char storage[ALLOCSIZE];
+
+    printf("Using ORIGINAL readlines()\n\n");
+
+    start = clock();
+
+    nlines = readlines(lineptr, MAXLINES);
+
+    if (nlines < 0) {
+        fprintf(stderr, "Input too large.\n");
+        return 1;
+    }
+
+    kr_qsort(lineptr, 0, nlines - 1);
+
+    end = clock();
+
+    elapsed = (double)(end - start) / CLOCKS_PER_SEC;
+
+    printf("Read + Sort time: %.6f seconds\n", elapsed);
+
+    /*
+     * Uncomment this if you want to print the sorted lines.
+     *
+     * writelines(lineptr, nlines);
+     */
+
+    /*
+     * ---------------------------------------------------------
+     * After you've implemented readlines_ex57(), replace
+     * the call above with:
+     *
+     *      nlines = readlines_ex57(
+     *          lineptr,
+     *          MAXLINES,
+     *          storage,
+     *          ALLOCSIZE);
+     *
+     * and compare the timings.
+     * ---------------------------------------------------------
+     */
+
+    return 0;
+}
+
+/* ===================================================== */
+/*                YOUR SOLUTION GOES HERE                */
+/* ===================================================== */
+
+int readlines_ex57(char *lineptr[],
+                   int maxlines,
+                   char storage[],
+                   int storage_size)
+{
+
+    int len, nlines;
+    char *p, line[MAXLEN];
+
+    nlines = 0;
+    while ((len = getline(line, MAXLEN)) > 0)
+    {
+	if 
+	int i = 0;
+	*p = line[0];
+	while (i < len)
+	    storage[*p++] = line[i++];
+	
+	    
+	    
+    return 0;
+}
